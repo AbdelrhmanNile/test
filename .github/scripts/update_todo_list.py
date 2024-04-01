@@ -16,7 +16,6 @@ comment_id = os.getenv("COMMENT_ID")
 
 if comment_id:
     comment = todo_issue.get_comment(int(comment_id))
-    comment.delete()
     for line in comment.body.splitlines():
         if line.startswith(
             "#"
@@ -24,7 +23,7 @@ if comment_id:
             issue_number = int(line[1:])
             referenced_issue = repo.get_issue(number=issue_number)
             todo_issue.edit(
-                body=f"{todo_issue.body}\n- [ ] {referenced_issue.title} #{issue_number}"
+                body=f"{todo_issue.body.replace(f'- [ ] {referenced_issue.title}', f'- [x] #{issue_number}')}"
             )
 
     # Delete the comment
