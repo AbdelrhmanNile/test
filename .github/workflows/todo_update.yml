@@ -25,4 +25,5 @@ jobs:
     - name: Update TODO list
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COMMENT_ID: ${{ github.event.comment.id }}
       run: python .github/scripts/update_todo_list.py

@@ -12,17 +12,22 @@ TODO_ISSUE_NUMBER = 1  # Replace with your TODO list issue number
 repo = g.get_repo(REPO_NAME)
 todo_issue = repo.get_issue(number=TODO_ISSUE_NUMBER)
 
-# Get the latest comment
-comments = todo_issue.get_comments()
-latest_comment = comments[-1].body
+comment_id = os.getenv("COMMENT_ID")
 
-# Example parsing logic (customize as needed)
-for line in latest_comment.splitlines():
-    if line.startswith("#"):  # Simple way to find issue references; adjust as needed
-        issue_number = int(line[1:])
-        referenced_issue = repo.get_issue(number=issue_number)
-        todo_issue.edit(
-            body=f"{todo_issue.body}\n- [ ] {referenced_issue.title} #{issue_number}"
-        )
+if comment_id:
+    comment = todo_issue.get_comment(int(comment_id))
+    comment.delete()
+    for line in comment.body.splitlines():
+        if line.startswith(
+            "#"
+        ):  # Simple way to find issue references; adjust as needed
+            issue_number = int(line[1:])
+            referenced_issue = repo.get_issue(number=issue_number)
+            todo_issue.edit(
+                body=f"{todo_issue.body}\n- [ ] {referenced_issue.title} #{issue_number}"
+            )
 
-print("TODO list updated with referenced issues.")
+    # Delete the comment
+    comment.delete()
+
+print("TODO list updated successfully.")
