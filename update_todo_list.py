@@ -5,7 +5,7 @@ from github import Github
 g = Github(os.getenv("GITHUB_TOKEN"))
 
 # Constants
-REPO_NAME = "yourusername/yourrepo"  # Replace with your repository
+REPO_NAME = "Abdelrhmannile/test"  # Replace with your repository
 TODO_ISSUE_NUMBER = 1  # Replace with your TODO list issue number
 
 # Get the repository and TODO issue
