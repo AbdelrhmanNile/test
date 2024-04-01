@@ -1,0 +1,15 @@
+name: Sync TODO list with Issues
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  sync-todo-list:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    - name: Update TODO list
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: python update_todo_list.py
